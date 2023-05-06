@@ -2,8 +2,13 @@ import { RunConfig, StopRunConfig } from './types';
 import Cron from 'croner';
 
 export class Scheduler {
+  private debug?: boolean;
   private runners = new Map<string, Cron>()
   
+  constructor(debug?: boolean) {
+    this.debug = debug
+  }
+
   public run = (config: RunConfig) => {
     const {
       job,
@@ -13,7 +18,6 @@ export class Scheduler {
       interval,
       delay,
       delayDuration,
-      debug,
     } = config;
 
     if (interval.length <= 0) {
@@ -39,7 +43,7 @@ export class Scheduler {
     const instance = new Cron(interval, (self: Cron) => {
       job();
 
-      if (debug) {
+      if (this.debug) {
         const previousRunDate = self.previousRun()
         const nextRunDate = self.nextRun()
         
@@ -67,9 +71,13 @@ export class Scheduler {
     
     try {
       run.stop()
-      console.info(`[Scheduler] Job ${jobName} has stopped`)
+      if (this.debug) {
+        console.info(`[Scheduler] Job ${jobName} has stopped`)
+      }
     } catch (e) {
-      console.error(`[Scheduler] Unable to stop job ${jobName} due to ${e}`)
+      if (this.debug) { 
+        console.error(`[Scheduler] Unable to stop job ${jobName} due to ${e}`)
+      }
     } finally { 
       return 
     }

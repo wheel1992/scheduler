@@ -6,7 +6,6 @@ export type RunConfig = {
   interval: string;
   delay?: boolean;
   delayDuration?: number;
-  debug?: boolean;
 };
 
 export type StopRunConfig = {
