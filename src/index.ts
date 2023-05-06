@@ -1,12 +1,12 @@
-import { RunConfig, StopRunConfig } from './types';
+import { DefaultConfig, RunConfig, StopRunConfig } from './types';
 import Cron from 'croner';
 
 export class Scheduler {
   private debug?: boolean;
   private runners = new Map<string, Cron>()
   
-  constructor(debug?: boolean) {
-    this.debug = debug
+  constructor(config?: DefaultConfig) {
+    this.debug = config ? config.debug : false
   }
 
   public run = (config: RunConfig) => {
@@ -28,13 +28,11 @@ export class Scheduler {
       throw new Error('Job name must be provided')
     }
 
-    if (!immediate) {
+    if (immediate) {
       setTimeout(
         () => {
           job();
-          if (immediate && immediateCallback) {
-            immediateCallback();
-          }
+          if (immediateCallback) immediateCallback();
         },
         delay ? delayDuration || 0 : 0,
       );

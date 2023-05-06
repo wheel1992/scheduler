@@ -1,3 +1,7 @@
+export type DefaultConfig = {
+  debug?: boolean;
+}
+
 export type RunConfig = {
   job: () => void;
   jobName: string;
