@@ -10,7 +10,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "alwaysStrict": true,
     "sourceMap": true
   },
