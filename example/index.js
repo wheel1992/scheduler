@@ -13,9 +13,13 @@ const {Scheduler} = require('../dist/index');
     immediateCallback: () => { 
       console.log('Immediate callback called')
     },
+    onError: () => { 
+      console.log('error')
+    },
     interval: '*/1 * * * *',
     delay: true,
     delayDuration: 1000,
+    timezone: 'Asia/Singapore'
   })
 
   process.on('SIGINT', () => { 
