@@ -1,6 +1,6 @@
 export type DefaultConfig = {
   verbose?: boolean;
-}
+};
 
 export type RunConfig = {
   job: () => void;
@@ -14,9 +14,9 @@ export type RunConfig = {
    * Example: Asia/Singapore, Pacific/Honolulu
    */
   timezone?: string;
-  onError?: () => void
+  onError?: () => void;
 };
 
 export type StopRunConfig = {
   jobName: string;
-}
+};
