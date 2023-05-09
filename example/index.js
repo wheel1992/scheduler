@@ -3,7 +3,7 @@ const {Scheduler} = require('../dist/index');
 
   
 (async () => { 
-  const scheduler = new Scheduler({ debug: true })
+  const scheduler = new Scheduler({ verbose: true })
   scheduler.run({
     job: () => { 
       console.log('Job 1')

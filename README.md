@@ -6,10 +6,10 @@
 # Usage
 
 ```js
-const {Scheduler} = require('../dist/index');
+const { Scheduler } = require('../dist/index');
 
 // Create a new instance
-const scheduler = new Scheduler({ debug: true })
+const scheduler = new Scheduler({ verbose: true })
 
 // Add and execute a job
 scheduler.run({

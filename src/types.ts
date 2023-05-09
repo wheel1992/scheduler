@@ -1,5 +1,5 @@
 export type DefaultConfig = {
-  debug?: boolean;
+  verbose?: boolean;
 }
 
 export type RunConfig = {
