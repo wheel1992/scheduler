@@ -12,7 +12,7 @@ class Scheduler {
         this.debug = config ? config.debug : false;
     }
     run = (config) => {
-        const { job, jobName, immediate, immediateCallback, interval, delay, delayDuration, } = config;
+        const { job, jobName, immediate, immediateCallback, interval, delay, delayDuration, timezone, onError, } = config;
         if (interval.length <= 0) {
             throw new Error('Interval must be provided');
         }
@@ -26,7 +26,16 @@ class Scheduler {
                     immediateCallback();
             }, delay ? delayDuration || 0 : 0);
         }
-        const instance = new croner_1.default(interval, (self) => {
+        const instance = new croner_1.default(interval, {
+            catch: (e, job) => {
+                if (onError)
+                    onError();
+                if (this.debug) {
+                    console.error(`[Scheduler] Job: ${job.name} error: ${e}`);
+                }
+            },
+            timezone,
+        }, (self) => {
             job();
             if (this.debug) {
                 const previousRunDate = self.previousRun();

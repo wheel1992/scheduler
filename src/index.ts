@@ -18,6 +18,8 @@ export class Scheduler {
       interval,
       delay,
       delayDuration,
+      timezone,
+      onError,
     } = config;
 
     if (interval.length <= 0) {
@@ -38,7 +40,16 @@ export class Scheduler {
       );
     }
 
-    const instance = new Cron(interval, (self: Cron) => {
+    const instance = new Cron(interval, {
+      catch: (e: any, job) => { 
+        if (onError) onError();
+        if (this.debug) { 
+          console.error(`[Scheduler] Job: ${job.name} error: ${e}`);
+        }
+      },
+      timezone,
+    },
+      (self: Cron) => {
       job();
 
       if (this.debug) {
