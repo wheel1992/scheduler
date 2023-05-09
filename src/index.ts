@@ -2,11 +2,11 @@ import { DefaultConfig, RunConfig, StopRunConfig } from './types';
 import Cron from 'croner';
 
 export class Scheduler {
-  private debug?: boolean;
+  private verbose?: boolean;
   private runners = new Map<string, Cron>()
   
   constructor(config?: DefaultConfig) {
-    this.debug = config ? config.debug : false
+    this.verbose = config ? config.verbose : false
   }
 
   public run = (config: RunConfig) => {
@@ -43,7 +43,7 @@ export class Scheduler {
     const instance = new Cron(interval, {
       catch: (e: any, job) => { 
         if (onError) onError();
-        if (this.debug) { 
+        if (this.verbose) { 
           console.error(`[Scheduler] Job: ${job.name} error: ${e}`);
         }
       },
@@ -52,7 +52,7 @@ export class Scheduler {
       (self: Cron) => {
       job();
 
-      if (this.debug) {
+      if (this.verbose) {
         const previousRunDate = self.previousRun()
         const nextRunDate = self.nextRun()
         
@@ -80,11 +80,11 @@ export class Scheduler {
     
     try {
       run.stop()
-      if (this.debug) {
+      if (this.verbose) {
         console.info(`[Scheduler] Job ${jobName} has stopped`)
       }
     } catch (e) {
-      if (this.debug) { 
+      if (this.verbose) { 
         console.error(`[Scheduler] Unable to stop job ${jobName} due to ${e}`)
       }
     } finally { 

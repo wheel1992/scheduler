@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Scheduler = void 0;
 const croner_1 = __importDefault(require("croner"));
 class Scheduler {
-    debug;
+    verbose;
     runners = new Map();
     constructor(config) {
-        this.debug = config ? config.debug : false;
+        this.verbose = config ? config.verbose : false;
     }
     run = (config) => {
         const { job, jobName, immediate, immediateCallback, interval, delay, delayDuration, timezone, onError, } = config;
@@ -30,14 +30,14 @@ class Scheduler {
             catch: (e, job) => {
                 if (onError)
                     onError();
-                if (this.debug) {
+                if (this.verbose) {
                     console.error(`[Scheduler] Job: ${job.name} error: ${e}`);
                 }
             },
             timezone,
         }, (self) => {
             job();
-            if (this.debug) {
+            if (this.verbose) {
                 const previousRunDate = self.previousRun();
                 const nextRunDate = self.nextRun();
                 console.info(`[Scheduler] Job: ${jobName}`, `Previous run: ${previousRunDate ? previousRunDate.toISOString() : '<no previous run>'}`, `Next run: ${nextRunDate ? nextRunDate.toISOString() : '<no next run>'}`);
@@ -56,12 +56,12 @@ class Scheduler {
         }
         try {
             run.stop();
-            if (this.debug) {
+            if (this.verbose) {
                 console.info(`[Scheduler] Job ${jobName} has stopped`);
             }
         }
         catch (e) {
-            if (this.debug) {
+            if (this.verbose) {
                 console.error(`[Scheduler] Unable to stop job ${jobName} due to ${e}`);
             }
         }
