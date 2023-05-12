@@ -14,7 +14,7 @@ export type RunConfig = {
    * Example: Asia/Singapore, Pacific/Honolulu
    */
   timezone?: string;
-  onError?: () => void;
+  onError?: (e: Error, jobName: string) => void;
 };
 
 export type StopRunConfig = {
