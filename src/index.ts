@@ -44,7 +44,7 @@ export class Scheduler {
       interval,
       {
         catch: (e: any, job) => {
-          if (onError) onError();
+          if (onError) onError(Error(`${e}`), job.name);
           if (this.verbose) {
             console.error(`[Scheduler] Job: ${job.name} error: ${e}`);
           }
